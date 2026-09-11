@@ -946,18 +946,79 @@ elif st.session_state.page == "Pricing":
     )
 
     plans = [
-        {
-            "name": "Starter",
-            "price": 5,
-            "listings": 10,
-            "description": "Perfect for getting started."
-        },
-        {
-            "name": "Business",
-            "price": 15,
-            "listings": 50,
-            "description": "For growing sellers."
-        },
-        {
-            "name": "Pro",
-            "price": 3
+    {
+        "name": "Starter",
+        "price": 5,
+        "listings": 10,
+        "description": "Perfect for getting started.",
+    },
+    {
+        "name": "Business",
+        "price": 15,
+        "listings": 50,
+        "description": "For growing sellers.",
+    },
+    {
+        "name": "Pro",
+        "price": 30,
+        "listings": 200,
+        "description": "For serious sellers.",
+    },
+]
+
+columns = st.columns(3)
+
+for i, plan in enumerate(plans):
+
+    with columns[i]:
+
+        st.markdown(
+            f"""
+            <div class="plan">
+
+                <div class="muted">
+                    MARKETPLACE SELLER PLAN
+                </div>
+
+                <h2>{plan["name"]}</h2>
+
+                <div class="plan-price">
+                    ${plan["price"]}<span style="font-size:15px;">
+                    /month</span>
+                </div>
+
+                <p class="muted">
+                    {plan["description"]}
+                </p>
+
+                <p>
+                    ✓ {plan["listings"]} product listings
+                </p>
+
+                <p>
+                    ✓ Seller dashboard
+                </p>
+
+                <p>
+                    ✓ Product management
+                </p>
+
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        if st.button(
+            f"Choose {plan['name']}",
+            key=f"choose_plan_{plan['name']}",
+            use_container_width=True,
+        ):
+
+            if not st.session_state.user:
+                st.warning("Please log in or create an account first.")
+                st.session_state.page = "Login"
+                st.rerun()
+
+            else:
+                st.session_state.selected_plan = plan
+                go("Crypto")
